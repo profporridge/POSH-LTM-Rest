@@ -14,13 +14,15 @@
 
 $Script:F5Session=$null
 
-Add-Type -Path "${PSScriptRoot}\Validation.cs"
+#Add-Type -Path "${PSScriptRoot}\Validation.cs"
 Add-Type -Path "${PSScriptRoot}\TypeData\PoshLTM.Types.cs"
 Update-FormatData "${PSScriptRoot}\TypeData\PoshLTM.Format.ps1xml"
 $ScriptPath = Split-Path $MyInvocation.MyCommand.Path
 
 #Restrict .NET Framework to TLS v 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+[Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+
 
 #region Load Public Functions
 

@@ -22,8 +22,8 @@ Function Invoke-RestMethodOverride {
         Invoke-RestMethod @PSBoundParameters -SkipCertificateCheck
     }
     else {
-        [SSLValidator]::OverrideValidation()
+    #    [SSLValidator]::OverrideValidation()
         Invoke-RestMethod @PSBoundParameters
-        [SSLValidator]::RestoreValidation()
+    #    [SSLValidator]::RestoreValidation()
     }
 }
