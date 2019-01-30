@@ -15,7 +15,8 @@ Write-Output  "File saved to $file"
 
 # Unblock and decompress
 Unblock-File -Path $file
-$targetondisk = "$($env:USERPROFILE)\Documents\WindowsPowerShell\Modules"
+#$targetondisk = "$($env:USERPROFILE)\Documents\WindowsPowerShell\Modules"
+$targetondisk = "C:\Program Files\WindowsPowerShell\Modules"
 New-Item -ItemType Directory -Force -Path $targetondisk | out-null
 $shell_app=new-object -com shell.application
 $zip_file = $shell_app.namespace($file)
@@ -24,8 +25,9 @@ $destination = $shell_app.namespace($targetondisk)
 $destination.Copyhere($zip_file.items(), 0x10)
 
 # Rename and import
-Write-Output "Renaming folder" 
-Rename-Item -Path ($targetondisk+"\POSH-LTM-Rest-master") -NewName "F5-LTM" -Force
-Write-Output "Module has been installed" 
+Write-Output "Renaming folder" -ForegroundColor Cyan
+Move-Item -Path ($targetondisk+"\POSH-LTM-Rest-master\F5-LTM") -Destination ($targetondisk+"\F5-LTM") -Force
+Remove-Item -Path ($targetondisk+"\POSH-LTM-Rest-master") -Force -Recurse
+Write-Output "Module has been installed" -ForegroundColor Green
 Import-Module -Name F5-LTM
 Get-Command -Module F5-LTM
